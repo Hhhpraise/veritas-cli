@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Veritas</title>
+<style>
+  :root { color-scheme: light; }
+  body {
+    width: 300px; padding: 16px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 13px; color: #1a1a2e; margin: 0;
+    background: #ffffff;
+  }
+  h1 {
+    font-size: 20px; font-weight: 700; margin: 0 0 4px;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .subtitle { font-size: 11px; color: #6b7280; margin-bottom: 16px; }
+  .info-block {
+    background: #f8f9fa; border: 1px solid #e5e7eb;
+    border-radius: 8px; padding: 12px; margin-bottom: 12px;
+  }
+  .info-block h3 { font-size: 12px; margin: 0 0 4px; color: #6366f1; }
+  .info-block p { font-size: 12px; color: #374151; margin: 0; line-height: 1.4; }
+  a { color: #6366f1; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+  <h1>Veritas</h1>
+  <p class="subtitle">Paper quality scoring & citation verification</p>
+
+  <div class="info-block">
+    <h3>How to use</h3>
+    <p>Open your paper on Overleaf or Google Docs. Click "Analyze Document" in the Veritas dashboard (bottom-right corner) to score your sections.</p>
+  </div>
+
+  <div class="info-block">
+    <h3>CLI also available</h3>
+    <p><code>npm install -g veritas-cli</code><br>
+    <code>veritas analyze paper.md</code><br>
+    <code>veritas audit-citations paper.md</code><br>
+    <code>veritas repair paper.md --fix-citations</code></p>
+  </div>
+
+  <p style="font-size:11px; color:#9ca3af; text-align:center;">
+    <a href="https://github.com/Hhhpraise/veritas" target="_blank">github.com/Hhhpraise/veritas</a>
+  </p>
+</body>
+</html>

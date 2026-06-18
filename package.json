@@ -1,0 +1,15 @@
+{
+  "name": "veritas-cli",
+  "version": "2.0.0",
+  "type": "module",
+  "description": "Veritas v2 - Multi-format paper quality scoring, live citation verification via Semantic Scholar and CrossRef, BibTeX support",
+  "main": "cli.js",
+  "bin": { "veritas": "./cli.js" },
+  "scripts": { "test": "node test.js" },
+  "keywords": ["academic-writing","paper-quality","citation-verification","section-scoring","research","peer-review","manuscript","semantic-scholar","crossref","bibtex","latex"],
+  "author": "Praise O. A.",
+  "license": "MIT",
+  "repository": { "type": "git", "url": "https://github.com/Hhhpraise/veritas" },
+  "dependencies": { "commander": "^12.1.0", "chalk": "^5.4.0" },
+  "engines": { "node": ">=18.0.0" }
+}

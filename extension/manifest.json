@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "Veritas — Academic Paper Quality Dashboard",
+  "version": "2.0.0",
+  "description": "v2: Section-level quality scoring for Overleaf & Google Docs. Live citation verification available in the CLI (npm i -g veritas-cli).",
+  "permissions": ["activeTab", "storage"],
+  "host_permissions": ["https://*.overleaf.com/*", "https://docs.google.com/document/*"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Veritas"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://*.overleaf.com/*", "https://docs.google.com/document/*"],
+      "js": ["content.js"],
+      "css": ["dashboard.css"]
+    }
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}
