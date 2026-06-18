@@ -1,6 +1,6 @@
 # Veritas v2
 
-[![npm version](https://img.shields.io/npm/v/veritas-cli?style=flat-square)](https://www.npmjs.com/package/veritas-cli)
+[![npm version](https://img.shields.io/badge/npm-install%20locally-orange?style=flat-square)](#quick-start)
 [![license](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
 [![platform](https://img.shields.io/badge/platform-node%20%3E%3D18-brightgreen?style=flat-square)](https://nodejs.org)
 [![browser-extension](https://img.shields.io/badge/browser-Chrome%20%7C%20Edge%20%7C%20Firefox-orange?style=flat-square)](#browser-extension)
@@ -64,8 +64,11 @@ Veritas checks every citation against Semantic Scholar and CrossRef in real time
 ## Quick Start
 
 ```bash
-# 1. Install
-npm install -g veritas-cli
+# 1. Clone and install
+git clone https://github.com/Hhhpraise/veritas.git
+cd veritas
+npm install
+npm link
 
 # 2. Score any paper
 veritas analyze my-paper.md
