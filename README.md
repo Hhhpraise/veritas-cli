@@ -1,19 +1,22 @@
-# Veritas v2
+# Veritas v2.2
 
 [![npm version](https://img.shields.io/badge/npm-install%20locally-orange?style=flat-square)](#quick-start)
 [![license](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
 [![platform](https://img.shields.io/badge/platform-node%20%3E%3D18-brightgreen?style=flat-square)](https://nodejs.org)
 [![browser-extension](https://img.shields.io/badge/browser-Chrome%20%7C%20Edge%20%7C%20Firefox-orange?style=flat-square)](#browser-extension)
-[![version](https://img.shields.io/badge/version-2.0.0-purple?style=flat-square)](https://github.com/Hhhpraise/veritas)
+[![version](https://img.shields.io/badge/version-2.2.0-purple?style=flat-square)](https://github.com/Hhhpraise/veritas)
 
-> **Your paper, verified.** Multi-format quality scoring, live citation verification against Semantic Scholar & CrossRef, BibTeX support.
+> **Your paper, verified.** Multi-format quality scoring, live citation verification with confidence levels, claim dependency graphs, and one-click repair.
 
-## What's New in v2.0
+## What's New in v2.2
 
-- **Live API verification** — every citation checked against Semantic Scholar and CrossRef in real time. No more guessing whether `(Smith, 2024)` is real.
-- **Multi-format support** — `.md`, `.txt`, `.tex`, `.pdf`, `.docx`, `.html`. Works with whatever format your paper is in.
-- **BibTeX integration** — LaTeX papers with `.bib` files get cite keys resolved and verified automatically.
+- **Claim Dependency Graph** — `veritas graph` visualizes every claim in your paper and shows what depends on what. Change a methodology claim, and dependent results/discussion claims light up.
+- **Confidence Scoring** — citations are now rated high/medium/low confidence based on author match, year match, and title overlap. No more false positives from irrelevant papers.
+- **Real Section Improvement** — `--improve-sections` now rewrites passive voice, removes hedging, adds transitions, and inserts [CITATION NEEDED] markers instead of just HTML comments.
+- **Refactored codebase** — shared scoring engine in `lib/scoring.js`, new `lib/claims.js` for the graph engine.
 - **Smart repair** — hallucinated citations get replaced with real papers from the literature, not just flagged.
+- **Claim Dependency Graph** — `veritas graph paper.md` reveals the hidden structure of your argument. See which claims depend on which, so you know exactly what breaks when you revise.
+- **Confidence-rated verification** — every citation match gets a high/medium/low confidence score based on author, year, and title matching. No more false positives.
 
 ## The Problem
 
@@ -54,9 +57,25 @@ Unmatched citations (likely hallucinated):
 # One-click repair — replace fakes with real papers
 $ veritas repair paper.tex --bib refs.bib --fix-citations
 Found 3 unverified citation(s):
-  ❌ (Thompson, 2025) — No match in any database
+  ❌ (Thompson, 2025) — No match in any database [low confidence]
      → (Anderson, 2024) — Neural Approaches to Sequence Modeling
 [████████████████] Done! Backup saved to paper.veritas-backup.tex
+
+# Visualize your paper's claim structure
+$ veritas graph paper.md
+
+Claims extracted: 6  Dependencies found: 2
+Abstract (1 claims)
+  C001: Our approach achieves 94.3% accuracy... [→1]
+Introduction (2 claims)
+  C002: The Lancet found a 12-fold increase in fabricated references...
+  C003: GhostCite reported 41.5% of researchers copy-paste... [←1]
+...
+Impact Analysis:
+  C001 → impacts 1 claim(s):
+    ↳ supports C003
+  C004 → impacts 1 claim(s):
+    ↳ informs C006
 ```
 
 Veritas checks every citation against Semantic Scholar and CrossRef in real time. If a citation doesn't exist, it finds the closest real paper to replace it with.
@@ -89,9 +108,10 @@ veritas repair thesis.tex --bib refs.bib --fix-citations --dry-run  # preview fi
 
 | Command | Description | Options |
 |---------|-------------|---------|
-| `veritas analyze <file>` | Score all sections across 5 dimensions (any format) | `-f, --format` (terminal, json, html), `-s, --section` (filter) |
-| `veritas audit-citations <file>` | Live-verify every citation against Semantic Scholar + CrossRef | `--bib <file>` (BibTeX for LaTeX), `-f, --format` (terminal, json) |
-| `veritas repair <file>` | Auto-repair: replace fakes with real papers, annotate weak sections | `--bib <file>`, `--fix-citations`, `--improve-sections`, `--target <score>`, `--dry-run` |
+| `veritas analyze <file>` | Score all sections across 5 dimensions (any format) | `-f, --format` (terminal, json), `-s, --section` (filter) |
+| `veritas audit-citations <file>` | Live-verify every citation against Semantic Scholar + CrossRef, with confidence scoring | `--bib <file>` (BibTeX for LaTeX), `-f, --format` (terminal, json) |
+| `veritas graph <file>` | Build and visualize the claim dependency graph | `--json` (output as JSON) |
+| `veritas repair <file>` | Auto-repair: rewrite weak sections and replace hallucinated citations | `--bib <file>`, `--fix-citations`, `--improve-sections`, `--target <score>`, `--dry-run` |
 | `veritas --version` | Show version | |
 | `veritas --help` | Show help | |
 
@@ -136,7 +156,7 @@ Installation: Load `extension/` as an unpacked extension in Chrome/Edge (Develop
 
 | Tool | Section Scoring | Citation Verification | One-Click Repair | Accessible to Non-Coders | Price |
 |------|:---:|:---:|:---:|:---:|---:|
-| **Veritas** | ✅ 5 dimensions | ✅ Author-year + numeric | ✅ Auto-replace + annotate | ✅ CLI + Browser | Free / MIT |
+| **Veritas** | ✅ 5 dimensions | ✅ Author-year + numeric + LaTeX | ✅ Auto-replace + real rewrites | ✅ CLI + Browser | Free / MIT |
 | MetricDraft (Guo et al.) | ✅ PRISM system | ✅ CVRR (56%→15%) | ❌ Research only | ❌ Requires coding | N/A (paper) |
 | PaperOrchestra (Google) | ✅ Autoraters | ✅ Citation F1 | ❌ Pipeline only | ❌ Requires API keys | N/A (paper) |
 | PAT (Google) | ❌ Review feedback | ❌ No citation check | ❌ Feedback only | ❌ Conference-gated | Free (gated) |
@@ -160,11 +180,14 @@ Installation: Load `extension/` as an unpacked extension in Chrome/Edge (Develop
 ```
 veritas/
 ├── cli.js                 # Main CLI (npm package entry point)
+├── lib/
+│   ├── scoring.js         # Shared scoring engine (5 dimensions)
+│   └── claims.js          # Claim dependency graph engine
 ├── package.json           # npm package metadata
 ├── test.js                # Tests
 ├── extension/             # Browser extension
 │   ├── manifest.json      # Chrome Extension manifest v3
-│   ├── content.js         # Content script (injected dashboard)
+│   ├── content.js         # Content script with claim graph toggle
 │   ├── dashboard.css      # Dashboard styles
 │   ├── popup.html         # Extension popup
 │   └── icons/             # Extension icons (16, 48, 128)

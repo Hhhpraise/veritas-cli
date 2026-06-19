@@ -1,8 +1,8 @@
 {
   "name": "veritas-cli",
-  "version": "2.0.0",
+  "version": "2.2.0",
   "type": "module",
-  "description": "Veritas v2 - Multi-format paper quality scoring, live citation verification via Semantic Scholar and CrossRef, BibTeX support",
+  "description": "Veritas v2.2 - Multi-format paper quality scoring, live citation verification with confidence levels, claim dependency graph",
   "main": "cli.js",
   "bin": { "veritas": "./cli.js" },
   "scripts": { "test": "node test.js" },

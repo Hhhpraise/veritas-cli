@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Veritas — Academic Paper Quality Dashboard",
-  "version": "2.0.0",
+  "version": "2.2.0",
   "description": "v2: Section-level quality scoring for Overleaf & Google Docs. Live citation verification available in the CLI (npm i -g veritas-cli).",
   "permissions": ["activeTab", "storage"],
   "host_permissions": ["https://*.overleaf.com/*", "https://docs.google.com/document/*"],
